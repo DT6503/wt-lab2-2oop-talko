@@ -10,7 +10,7 @@ using wt_lab2_2oop_talko.Models;
 
 namespace wt_lab2_2oop_talko.Services;
 
-public class DishService : IItemService<Dish>
+internal class DishService : IItemService<Dish>
 {
     private List<Dish> dishList = new List<Dish>();
 

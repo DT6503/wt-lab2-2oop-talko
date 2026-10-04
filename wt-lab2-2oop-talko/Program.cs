@@ -217,16 +217,56 @@ public class Program
             switch (input)
             {
                 case "1":
-                    Console.WriteLine("[пункт 1 будет реализован в БЛОКЕ 2]");
+                    Console.WriteLine("=== Все блюда ===");
+                    foreach (Dish dish in dishes)
+                    {
+                        dish.PrintInfo();
+                    }
                     break;
                 case "2":
-                    Console.WriteLine("[пункт 2 будет реализован в БЛОКЕ 2]");
+                    Console.WriteLine("=== Меню через DishService ===");
+                    List<Dish> menu = service.GetAll();
+                    for (int i = 0; i < menu.Count; i++)
+                    {
+                        menu[i].PrintInfo();
+                    }
                     break;
+
                 case "3":
-                    Console.WriteLine("[пункт 3 будет реализован в БЛОКЕ 2]");
+                    Console.Write("Введите Id блюда: ");
+                    string idInput = Console.ReadLine();
+                    int idToFind;
+                    bool parsed = int.TryParse(idInput, out idToFind);
+                    /*Попробуй перевести текст из idInput в целое число. 
+                     * Если получилось, верни true и запиши число в idToFind.
+                     * Если не получилось, верни false и 
+                     * запиши в idToFind ноль*/
+                    
+                    if (!parsed)
+                    {
+                        Console.WriteLine("Некорректный Id.");
+                        break;
+                    }
+
+                    Dish found;
+                    bool ok = dishById.TryGetValue(idToFind, out found);
+                    /*можно ли превратить idInput в число Если нельзя: он 
+                     * записывает в idToFind ноль (0) и возвращает false
+                     * (программа не падает, а идет в блок if (!parsed)).*/
+
+                    if (ok)
+                    {
+                        Console.WriteLine("Найдено:");
+                        found.PrintInfo();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Блюдо с Id=" + idToFind + " не найдено.");
+                    }
                     break;
                 case "4":
-                    Console.WriteLine("[пункт 4 будет реализован в БЛОКЕ 3]");
+                    Console.WriteLine("=== Асинхронная доставка ===");
+                    await SimulateCookingAsync();
                     break;
                 case "0":
                     running = false;
